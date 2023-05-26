@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeAleyna", "RecipeAleyna\RecipeAleyna.csproj", "{E7CF8A9D-A9EB-4375-8C78-9D7138F9E363}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeSharingWebsite", "RecipeSharingWebsite\RecipeSharingWebsite.csproj", "{E7CF8A9D-A9EB-4375-8C78-9D7138F9E363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
