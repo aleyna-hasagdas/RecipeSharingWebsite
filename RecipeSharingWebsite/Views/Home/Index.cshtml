@@ -1,8 +1,45 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    ViewData["Heading"]= "Find best recipes for cooking";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="home" class="page-container">
+    <h4>@ViewData["Heading"]</h4>
+    <input type="text" class="field" placeholder="Search" />
+    <button class="button large primary">Large Primary</button>
+    <button class="button large secondary">Large Secondary</button>
+    <button class="button small secondary">Small Secondary</button>
+    <h5>Trending now 🔥</h5>
+    <div class="trends overflow-x-container">
+        <div class="content-container recipe">
+            <img
+                  src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505"
+                  alt="recipe"
+            />
+            <h6>Shakshuka</h6>
+            <p class="description">by Sena Oz</p>
+        </div>
+    </div>
+
+    <h5>Popular categories 🍔</h5>
+    <div class="categories overflow-x-container">
+        <button class="button small secondary">Salad</button>
+        <button class="button small primary">Breakfast</button>
+        <button class="button small secondary">Soup</button>
+        <button class="button small secondary">Dessert</button>
+        <button class="button small secondary">Dessert</button>
+    </div>
+
+    <h5>Recent recipes</h5>
+    <div class="recipes overflow-x-container">
+        <div class="content-container recipe">
+            <img
+                  src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505"
+                  alt="recipe"
+            />
+            <h6>Shakshuka</h6>
+            <p class="description">by Sena Oz</p>
+        </div>
+    </div>
 </div>
+
