@@ -37,7 +37,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
+    name: "RecipeSharingWebsite",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
