@@ -1,22 +1,308 @@
-html {
-  font-size: 14px;
-}
+:root {
+  --white: #ffffff;
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+  --primary-100: #711f1f;
+  --primary-90: #882525;
+  --primary-80: #9f2b2b;
+  --primary-70: #b62f2f;
+  --primary-60: #cb3838;
+  --primary-50: #e23e3e;
+  --primary-40: #e86565;
+  --primary-30: #ee8b8b;
+  --primary-20: #f3b2b2;
+  --primary-10: #f9d8d8;
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+  --rating: #ffb660;
+  --green-100: #31b057;
+  --green-10: #ceecd7;
 
-html {
-  position: relative;
-  min-height: 100%;
+  --neutral-100: #181818;
+  --neutral-90: #333333;
+  --neutral-80: #4d4d4d;
+  --neutral-70: #666666;
+  --neutral-60: #808080;
+  --neutral-50: #999999;
+  --neutral-40: #b3b3b3;
+  --neutral-30: #cccccc;
 }
 
 body {
-  margin-bottom: 60px;
+  background: rgba(0, 0, 0, 0.06);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 120%;
+  margin: 0;
+}
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+h3 {
+  font-size: 32px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+a {
+  cursor: pointer;
+}
+
+.description {
+  font-size: 14px;
+  opacity: 0.6;
+  line-height: 120%;
+  margin: 0;
+}
+
+.container {
+  min-height: 1200px;
+  height: 100vh;
+  padding: 34px 20px;
+  margin: auto;
+  background: var(--white);
+  max-width: 375px;
+  overflow-y: auto;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  gap: 20px;
+}
+
+form {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+form #ingredientContainer {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.button-container .button {
+  width: 100%;
+}
+
+.field {
+  max-width: 340px;
+  width: 100%;
+  min-height: 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--neutral-30);
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 140%;
+  color: var(--neutral-100);
+}
+
+.field::placeholder {
+  color: var(--neutral-30);
+}
+
+/* Styling for the buttons */
+
+.button {
+  text-transform: capitalize;
+  font-weight: 600;
+  line-height: 140%;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.large {
+  font-size: 16px;
+  padding: 16px 32px;
+}
+
+.small {
+  font-size: 14px;
+  padding: 8px 16px;
+}
+
+.primary {
+  color: var(--white);
+  background: var(--primary-50);
+}
+
+.secondary {
+  color: var(--primary-50);
+  background: var(--white);
+  border: 1px solid var(--primary-50);
+}
+
+.button.text {
+  color: var(--primary-50);
+  padding: 0px;
+  background: transparent;
+  border: none;
+}
+
+input[type="file"]::file-selector-button {
+  text-transform: capitalize;
+  font-weight: 600;
+  line-height: 140%;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 16px;
+  color: var(--primary-50);
+  background: var(--white);
+  border: 1px solid var(--primary-50);
+}
+
+.menu-container {
+  padding: 20px;
+  margin: 0 -20px;
+  max-width: 375px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0px -1px 8px rgba(108, 108, 108, 0.08);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Styling for the menu items */
+
+.menu-item a {
+  text-decoration: none;
+  color: var(--neutral-30);
+  padding: 5px;
+}
+
+.menu-item a:hover,
+.menu-item.add a:focus,
+.menu-item.add a:active {
+  color: var(--primary-50);
+  background-color: var(--primary-10);
+  border-radius: 5px;
+}
+
+.menu-item.add {
+  margin: -45px 0 0 0;
+  display: flex;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: var(--primary-50);
+  border-radius: 40px;
+}
+
+.menu-item.add a {
+  font-weight: 600;
+  font-size: 35px;
+  margin: -3px 0 0 0;
+  color: var(--white);
+}
+
+.menu-item.add a:hover,
+.menu-item.add a:focus,
+.menu-item.add a:active {
+  background: none;
+}
+
+/* Styling for images */
+
+img {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 5px;
+}
+
+.overflow-x-container {
+  display: inline-flex;
+  overflow-x: scroll;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Styling for the content and it's items */
+
+.content-container {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe {
+  max-width: 150px;
+}
+
+.recipe img {
+  height: 150px;
+}
+
+.favorites {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ingredients .button {
+  max-height: 30px;
+  max-width: 30px;
+  border: solid 1px;
+  font-size: 16px;
+  background: none;
+}
+
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin-bottom: 12px;
+}
+
+.profile p {
+  color: var(--neutral-50);
+  width: 80%;
+  line-height: 1.5em;
+  margin: 12px 0 0 0;
 }

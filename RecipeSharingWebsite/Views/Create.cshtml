@@ -1,0 +1,82 @@
+@page
+@model RecipeAleyna.Views.CreateRecipe.Create
+
+@{
+    ViewData["Title"] = "Create Recipe";
+    ViewData["Heading"] = "Create Recipe";
+    ViewData["DefaultImage"] = "https://media.istockphoto.com/id/1354776457/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=w3OW0wX3LyiFRuDHo9A32Q0IUMtD4yjXEvQlqyYk9O4=";
+}
+
+<div id="createRecipe" class="page-container">
+  <h4>@ViewData["Heading"]</h4>
+    <div id="previewImageContainer">
+      <img id="previewImage" src=@ViewData["DefaultImage"] alt="Recipe Preview" />
+      </div>
+  <form id="recipeForm" onsubmit="submitCreateRecipeForm(event)">
+    <h5>Name & Details</h5>
+    <input type="text" id="recipeName" placeholder="Recipe Name" class="field" name="recipeName" required>
+    <textarea class="field" placeholder="Description" id="description" name="description" rows="4" required></textarea>
+    <input type="text" id="category" placeholder="Category" class="field" name="category" required>
+    <textarea class="field" placeholder="Instructions" id="instructions" name="instructions" rows="4" required></textarea>
+    <h5>Image</h5>
+    <input type="url" id="recipeImage" placeholder="Recipe Image URL" class="field" name="recipeImage" onchange="updatePreviewImage()" required>
+    <h5>Ingredients</h5>
+    <div id="ingredientContainer">
+      <div class="ingredient-row ingredients button-container">
+        <input class="field" placeholder="Item name" type="text" name="ingredient[]" required>
+        <input class="field" placeholder="Quantity" type="text" name="quantity[]" required>
+        <button type="button" class="button" onclick="addIngredient()">+</button>
+      </div>
+    </div>
+    <div class="button-container">
+      <button class="button large primary" type="submit">Create Recipe</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  function addIngredient() {
+    var ingredientContainer = document.getElementById("ingredientContainer");
+    var newIngredientRow = document.createElement("div");
+    newIngredientRow.className = "ingredient-row ingredients button-container";
+
+    var ingredientInput = document.createElement("input");
+    ingredientInput.type = "text";
+    ingredientInput.name = "ingredient[]";
+    ingredientInput.className = "field";
+    ingredientInput.placeholder = "Item name";
+    ingredientInput.required = true;
+
+    var quantityInput = document.createElement("input");
+    quantityInput.type = "text";
+    quantityInput.name = "quantity[]";
+    quantityInput.className = "field";
+    quantityInput.placeholder = "Quantity";
+    quantityInput.required = true;
+
+    var removeButton = document.createElement("button");
+    removeButton.innerHTML = "-";
+    removeButton.type = "button";
+    removeButton.className = "button";
+    removeButton.onclick = function() {
+      ingredientContainer.removeChild(newIngredientRow);
+    };
+
+    newIngredientRow.appendChild(ingredientInput);
+    newIngredientRow.appendChild(quantityInput);
+    newIngredientRow.appendChild(removeButton);
+    ingredientContainer.appendChild(newIngredientRow);
+  }
+  
+  function updatePreviewImage() {
+      var recipeImageInput = document.getElementById('recipeImage');
+      var previewImage = document.getElementById('previewImage');
+      var defaultImageUrl = "https://media.istockphoto.com/id/1354776457/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=w3OW0wX3LyiFRuDHo9A32Q0IUMtD4yjXEvQlqyYk9O4=";
+  
+      if (recipeImageInput.value === '') {
+        previewImage.src = defaultImageUrl;
+      } else {
+        previewImage.src = recipeImageInput.value;
+      }
+    }
+</script>
