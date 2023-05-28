@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace RecipeAleyna.Models;
-
 public class RecipesModel
 {
-    public int RecipesId { get; set; }
-   
+    public int RecipeId { get; set; }
     [Required]
     public string? UserName { get; set; }
     [Required]
@@ -22,4 +20,5 @@ public class RecipesModel
     public string? DateAdded { get; set; }
     [Required]
     public string? RecipeName { get; set; }
+
 }
