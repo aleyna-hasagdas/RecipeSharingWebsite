@@ -57,8 +57,10 @@ namespace RecipeAleyna.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        [Route("Login/Profile/{id}")]
         [Authorize]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(string id)
         {
 
             var user = await _userManager.GetUserAsync(User);

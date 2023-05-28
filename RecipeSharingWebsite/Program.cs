@@ -51,6 +51,11 @@ app.MapControllerRoute(
     name: "RecipeSharingWebsite",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "RecipeSharingWebsite",
+    pattern: "{controller=Login}/{action=Profile}/{id?}");
+
+
 app.MapRazorPages();
 
 app.Run();
