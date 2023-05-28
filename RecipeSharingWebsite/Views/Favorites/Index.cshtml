@@ -1,26 +1,15 @@
-@page
-@model RecipeAleyna.Views.CreateRecipe.Profile
-
 @{
-    ViewData["Title"] = "Profile";
-    ViewData["Heading"]= "My Profile";
-    ViewData["Name"]= "Sena";
-    ViewData["Surname"]= "Oz";
-    ViewData["UserImage"]= "https://media.licdn.com/dms/image/D4D03AQFd9MdgsxoUxA/profile-displayphoto-shrink_400_400/0/1664549186379?e=1689811200&v=beta&t=JFQzqCi0hKSnQ3VsNTguiTQCW0Z8aIyZGf4Liq_dgV0";
-    ViewData["Description"]= "Hi world! I’m Sena from Türkiye 🇹🇷 I love cooking 🥐";
+    ViewData["Title"] = "Favorites";
+    ViewData["Heading"]= "Favorite recipes";
 }
 
-<div id="profile" class="page-container">
-    <h4>@ViewData["Heading"]</h4>
-    <div class="profile">
-        <img src=@ViewData["UserImage"] alt="profile"/>
-        <h5>@ViewData["Username"]</h5>
-        <p>@ViewData["Description"]</p>
-    </div>
-    
-    <div class="button-container">
-            <button class="button small primary">Small primary</button>
-            <button class="button small secondary">Small Secondary</button>
+
+<div class="container">
+    <div id="favorites" class="page-container">
+        <h4>@ViewData["Heading"]</h4>
+        <div class="button-container">
+            <button class="button small primary">Recipes</button>
+            <button class="button small secondary">Tips</button>
         </div>
         <div class="favorites">
             <div class="favorite content-container">
@@ -40,4 +29,5 @@
             </div>
             
         </div>
+    </div>
 </div>

@@ -1,5 +1,5 @@
 ﻿const serverEndpoint = 'server-endpoint'
-
+const server = 'http://localhost:5099/'
 
 // Login Form
 function submitLoginForm(event) {
@@ -118,7 +118,7 @@ function submitCreateRecipeForm(event) {
     };
 
     // Send the form data to the server
-    fetch(serverEndpoint, {
+    fetch(server + "/Recipes/Create", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

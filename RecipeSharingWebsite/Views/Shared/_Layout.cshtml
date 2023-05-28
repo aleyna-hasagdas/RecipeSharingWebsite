@@ -3,37 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Recipe</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/RecipeAleyna.styles.css" asp-append-version="true"/>
+    <title>@ViewData["Title"] - Recipe App</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/RecipeApp.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-<div class="container">
-    <main role="main">
-        @RenderBody()
-    </main>
-    <div class="menu-container">
-        <div class="menu-item">
-            <a asp-area="" asp-page="/Index">Home</a>
-        </div>
-        <div class="menu-item">
-            <a asp-area="" asp-page="/Favorites">Favorites</a>
-        </div>
-        <div class="menu-item add">
-            <a asp-area="" asp-page="/Create">+</a>
-        </div>
-        <div class="menu-item">
-            <a asp-area="" asp-page="/Profile">Profile</a>
-        </div>
-        <div class="menu-item">
-            <a href="mailto:sena.oz@boun.edu.tr">Feedback</a>
-        </div>
-    </div>
-</div>
-
+<main role="main">
+    @RenderBody()
+</main>
+<partial name="_LoginPartial" />
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-
-@await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

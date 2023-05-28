@@ -45,7 +45,7 @@ namespace RecipeAleyna.Controllers
                 return NotFound();
             }
 
-            return View("RecipePage", recipe);
+            return View("RecipeDetail", recipe);
         }
     }
 }

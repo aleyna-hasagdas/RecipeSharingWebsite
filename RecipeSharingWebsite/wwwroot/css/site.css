@@ -1,6 +1,5 @@
 :root {
   --white: #ffffff;
-
   --primary-100: #711f1f;
   --primary-90: #882525;
   --primary-80: #9f2b2b;
@@ -11,11 +10,9 @@
   --primary-30: #ee8b8b;
   --primary-20: #f3b2b2;
   --primary-10: #f9d8d8;
-
   --rating: #ffb660;
   --green-100: #31b057;
   --green-10: #ceecd7;
-
   --neutral-100: #181818;
   --neutral-90: #333333;
   --neutral-80: #4d4d4d;
@@ -27,13 +24,11 @@
 }
 
 body {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(0, 0, 0, 0.05);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-  sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -85,13 +80,17 @@ a {
 }
 
 .container {
-  min-height: 1200px;
+  min-height: 1000px;
   height: 100vh;
   padding: 34px 20px;
   margin: auto;
   background: var(--white);
   max-width: 375px;
   overflow-y: auto;
+}
+
+#createRecipe {
+  min-height: 1100px;
 }
 
 .page-container {
@@ -123,6 +122,10 @@ form #ingredientContainer {
 }
 
 .button-container .button {
+  width: 100%;
+}
+
+.button-container a {
   width: 100%;
 }
 
@@ -196,15 +199,21 @@ input[type="file"]::file-selector-button {
 
 .menu-container {
   padding: 20px;
-  margin: 0 -20px;
-  max-width: 375px;
   position: fixed;
   bottom: 0;
   width: 100%;
   background-color: var(--white);
   box-shadow: 0px -1px 8px rgba(108, 108, 108, 0.08);
   display: flex;
+  justify-content: center;
+}
+
+.items-container {
+  max-width: 375px;
+  display: flex;
   justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
 }
 
 /* Styling for the menu items */
@@ -236,7 +245,7 @@ input[type="file"]::file-selector-button {
 .menu-item.add a {
   font-weight: 600;
   font-size: 35px;
-  margin: -3px 0 0 0;
+  margin: -10px 0 0 0;
   color: var(--white);
 }
 
@@ -271,12 +280,9 @@ img {
   flex-direction: column;
 }
 
-.recipe {
-  max-width: 150px;
-}
-
 .recipe img {
   height: 150px;
+  width: 150px;
 }
 
 .favorites {
