@@ -14,7 +14,12 @@ namespace RecipeAleyna.Controllers
         {
             _dbContext = dbContext;
         }
-
+        
+        public IActionResult Index()
+        {
+            return View();
+        }
+        
         [HttpPost]
         public IActionResult AddToFavorites(int recipeId, int userId)
         {

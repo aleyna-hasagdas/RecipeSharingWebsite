@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using RecipeAleyna.Data;
 using RecipeAleyna.Models;
 
@@ -6,152 +7,89 @@ namespace RecipeAleyna.Controllers
 {
     public class RecipesController : Controller
     {
-        private readonly RecipeDbContext _dbContext;
-
-        public RecipesController(RecipeDbContext dbContext)
+        public IActionResult Index()
         {
-            _dbContext = dbContext;
+            try
+            {
+                List<RecipeModel> recipes = GetRecipesFromDatabase();
+
+                return View(recipes);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return View("Error");
+            }
         }
 
+        private List<RecipeModel> GetRecipesFromDatabase()
+        {
+            List<RecipeModel> recipes = new List<RecipeModel>
+            {
+                new RecipeModel { RecipeName = "Recipe 1", Description = "Description 1", Category = "Category 1" },
+                new RecipeModel { RecipeName = "Recipe 2", Description = "Description 2", Category = "Category 2" },
+                new RecipeModel { RecipeName = "Recipe 3", Description = "Description 3", Category = "Category 3" }
+            };
+
+            return recipes;
+        }
+        
+        [HttpGet]
+        [Route("/Recipes/Create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RecipesModel recipe)
+        [Route("/Recipes/Create")]
+        public IActionResult Create([FromBody] RecipeModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                recipe.DateAdded = DateTime.Now.ToString();
-                _dbContext.Recipes.Add(recipe);
-                await _dbContext.SaveChangesAsync();
-
-                // Tarif başarıyla kaydedildiyse, kullanıcıyı tarifin ayrıntılar sayfasına yönlendiriyoruzz
-                return RedirectToAction("RecipePage", new { id = recipe.RecipeId });
+                // Hocam, aşağıdaki kodu düzeltme şansımız olmadığından dolayı bir yorum satırı gibi eklemek istedik.
+                // SaveRecipeToDatabase(model);
+                
+                return Ok();
             }
-
-            // ModelState.IsValid false ise, hatalı bir giriş olduğunu varsayalım ve Create view'ini tekrar gösterelim
-            return View("Create", recipe);
-        }
-
-        public IActionResult RecipePage(int id)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
+            catch (Exception ex)
             {
-                return NotFound();//error sayfası
+                // Log the error and return an error response
+                Console.WriteLine(ex);
+                return BadRequest("Error creating recipe. Please try again.");
             }
-
-            return View("RecipePage", recipe);
         }
-
-        public IActionResult Search(string searchTerm)
-        {
-            var recipes = _dbContext.Recipes.Where(r => r.Ingredient != null && r.RecipeName != null 
-                                                                             && (r.RecipeName.Contains(searchTerm) 
-                                                                                 || r.Ingredient.Contains(searchTerm))).ToList();
-            return View("Search", recipes); 
-        }
-
-        public IActionResult Details(int id)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
+        
+        
+        // Hocam, aşağıdaki kodu düzeltme şansımız olmadığından dolayı bir yorum satırı gibi eklemek istedik.
+        
+        /*
+        using (var dbContext = new RecipeDbContext())
+        { 
+            Recipe recipe = new Recipe 
+            { 
+                UserName = model.UserName, 
+                Description = model.Description, 
+                Category = model.Category, 
+                Image = model.Image,
+                Instructions = model.Instructions, 
+                DateAdded = DateTime.Now, // Şu anki tarih ve saat
+                RecipeName = model.RecipeName 
+            };
+            
+            foreach (var ingredient in model.Ingredients) 
+            { 
+                recipe.Ingredients.Add(new Ingredient 
+                {
+                    Name = ingredient,
+                    RecipeId = recipe.RecipeId // malzemeleri tarif ile bagladik
+                }); 
             }
-
-            return View("Details", recipe);
-        }
-
-        public IActionResult Submit()
-        {
-            return View();//Submit isimli sayfayı döndürür
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Submit(RecipesModel recipe)
-        {
-            if (ModelState.IsValid)
-            {
-                recipe.DateAdded = DateTime.Now.ToString();
-                _dbContext.Recipes.Add(recipe);
-                await _dbContext.SaveChangesAsync();
-
-                return RedirectToAction("RecipePage", new { id = recipe.RecipeId });
-            }
-
-            return View(recipe);
-        }
-
-        public IActionResult Edit(int id)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            return View(recipe);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, RecipesModel editedRecipe)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                // güncelleme
-                recipe.RecipeName = editedRecipe.RecipeName;
-                recipe.Description = editedRecipe.Description;
-                recipe.Category = editedRecipe.Category;
-                recipe.Image = editedRecipe.Image;
-                recipe.Instructions = editedRecipe.Instructions;
-                recipe.Ingredient = editedRecipe.Ingredient;
-
-                await _dbContext.SaveChangesAsync();
-
-                return RedirectToAction("RecipePage", new { id });
-            }
-
-            return View(editedRecipe);
-        }
-
-        public IActionResult Delete(int id)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            return View(recipe);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            _dbContext.Recipes.Remove(recipe);
-            await _dbContext.SaveChangesAsync();
-
-            return RedirectToAction("Index", "Home");
-        }
+            dbContext.Recipes.Add(recipe);
+            dbContext.SaveChanges(); 
+        } */
+        
     }
+
 }
