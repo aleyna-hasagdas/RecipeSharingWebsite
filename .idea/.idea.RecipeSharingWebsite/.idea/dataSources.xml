@@ -4,7 +4,7 @@
     <data-source source="LOCAL" name="yemek_sitesi@localhost" uuid="b8bca246-abd7-4a43-9aa5-deed56f9c315">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/yemek_sitesi</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
