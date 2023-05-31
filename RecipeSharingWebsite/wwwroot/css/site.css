@@ -80,17 +80,13 @@ a {
 }
 
 .container {
-  min-height: 1000px;
+  min-height: 1350px;
   height: 100vh;
   padding: 34px 20px;
   margin: auto;
   background: var(--white);
   max-width: 375px;
   overflow-y: auto;
-}
-
-#createRecipe {
-  min-height: 1100px;
 }
 
 .page-container {
@@ -100,6 +96,11 @@ a {
   justify-content: start;
   gap: 20px;
 }
+
+#recipeDetail {
+  min-height: 1700px;
+}
+
 
 form {
   gap: 20px;
@@ -280,9 +281,13 @@ img {
   flex-direction: column;
 }
 
+.recipe {
+  width: 48%;
+}
+
 .recipe img {
+  min-width: 150px;
   height: 150px;
-  width: 150px;
 }
 
 .favorites {

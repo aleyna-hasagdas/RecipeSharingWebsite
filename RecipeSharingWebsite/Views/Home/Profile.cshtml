@@ -1,43 +1,48 @@
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-
 @{
     ViewData["Title"] = "Profile";
     ViewData["Heading"]= "Profile";
-    ViewData["Name"]= "Sena";
-    ViewData["Surname"]= "Oz";
-    ViewData["UserImage"]= "https://media.licdn.com/dms/image/D4D03AQFd9MdgsxoUxA/profile-displayphoto-shrink_400_400/0/1664549186379?e=1689811200&v=beta&t=JFQzqCi0hKSnQ3VsNTguiTQCW0Z8aIyZGf4Liq_dgV0";
-    ViewData["Description"]= "Hi world! I’m from Türkiye 🇹🇷 I love cooking 🥐";
+    var user = new UserModel
+    {
+        UserId = 1,
+        Username = "sampleUser",
+        Password = "samplePassword",
+        Email = "sena.oz@boun.edu.tr",
+        UserImageLink = "https://media.licdn.com/dms/image/D4D03AQFd9MdgsxoUxA/profile-displayphoto-shrink_400_400/0/1664549186379?e=1689811200&v=beta&t=JFQzqCi0hKSnQ3VsNTguiTQCW0Z8aIyZGf4Liq_dgV0",
+        Name = "Sena",
+        Surname = "Oz",
+        Description = "Lorem ipsum dolor sit amet."
+    };
+
+    var providedEmail = "";
+    var providedPassword = "";
+    
+    string email = Context.Request.Query["email"];
+    string password = Context.Request.Query["password"];
+
+    if (Context.Request.Method == "POST")
+    {
+        providedEmail = Context.Request.Form["email"];
+        providedPassword = Context.Request.Form["password"];
+
+        if (user.Email == providedEmail && user.Password == providedPassword)
+        {
+            // Redirect to the profile page with info
+            Context.Response.Redirect("/Home/Profile?email=" + providedEmail + "&password=" + providedPassword);
+
+        }
+    }
+    
 }
 
 <div class="container">
-    @if (SignInManager.IsSignedIn(User))
+    @if (user.Email == email && user.Password == password)
                 {
                     <div id="profile" class="page-container">
-                        <h4>@ViewData["Heading"]</h4>
+                        <h4>@user.Name @user.Surname</h4>
                         <div class="profile">
-                            <img src=@ViewData["UserImage"] alt="profile"/>
-                            <h5>@ViewData["Username"]</h5>
-                            <p>@ViewData["Description"]</p>
-                        </div>
-                        <div class="favorites">
-                            <div class="favorite content-container">
-                                <img src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505" alt="recipe"/>
-                                <h6>How to make french toast</h6>
-                                <p class="description">by Aleyna Hasagdas</p>
-                            </div>
-                            <div class="favorite content-container">
-                                <img src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505" alt="recipe"/>
-                                <h6>How to make french toast</h6>
-                                <p class="description">by Aleyna Hasagdas</p>
-                            </div>
-                            <div class="favorite content-container">
-                                <img src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505" alt="recipe"/>
-                                <h6>How to make french toast</h6>
-                                <p class="description">by Aleyna Hasagdas</p>
-                            </div>
-                
+                            <img src=@user.UserImageLink alt="profile"/>
+                            @user.Description <br/>
+                            @user.Email
                         </div>
                     </div>
                 }
@@ -46,42 +51,26 @@
                     <div id="profile" class="page-container">
                         <h4>Login</h4>
                         <h5>Use a local account to log in.</h5>
-                        <form id="account" method="post" novalidate="novalidate" style="width: 100%;">
-                            <div>
-                                <input class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Input_Email" name="Input.Email" value="">
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Input.Email" data-valmsg-replace="true"></span>
-                            </div>
-                            <div>
-                                <input class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" type="password" data-val="true" data-val-required="The Password field is required." id="Input_Password" name="Input.Password">
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Input.Password" data-valmsg-replace="true"></span>
-                            </div>
-                            <div class="checkbox">
-                                <label class="form-label" for="Input_RememberMe">
-                                    <input class="form-check-input" type="checkbox" data-val="true" data-val-required="The Remember me? field is required." id="Input_RememberMe" name="Input.RememberMe" value="true">
-                                    Remember me?
-                                </label>
-                            </div>
-                            <button id="login-submit" type="submit" class="button small primary">Log in</button>
-                            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LKdo4D42AlItGEmIKPOcdCzh-0hHymD2i2RbjLxaSv3HTe8U5pH3tgZwN2vxyESPduf2L4RhsY0TfuvMUmIAJ1xo3sXCaZuaCymWHKso6rnLUQT_MiYO-FbH4hPT2NFP9vJ2V6H7oWMDuHaFYx8os0"><input name="Input.RememberMe" type="hidden" value="false">
+                        
+                        <form action="/Home/Profile" method="post" style="width: 100%">
+                            <input type="text" name="username" class="form-control" required placeholder="Email" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required.">
+                            <input type="password" name="password" class="form-control" required placeholder="Password">
+                            <input type="submit" value="Login" class="button small primary">
                         </form>
+                        
                         <hr style="width: 100%;">
+                        
                         <h4>Register</h4>
                         <h5>Create a new account.</h5>
-                        <form id="registerForm" method="post" action="/Identity/Account/Register" novalidate="novalidate" style="width: 100%;">
-                            <div>
-                                <input class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Input_Email" name="Input.Email" value="">
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Input.Email" data-valmsg-replace="true"></span>
-                            </div>
-                            <div>
-                                <input class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" data-val="true" data-val-length="The Password must be at least 6 and at max 100 characters long." data-val-length-max="100" data-val-length-min="6" data-val-required="The Password field is required." id="Input_Password" maxlength="100" name="Input.Password">
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Input.Password" data-valmsg-replace="true"></span>
-                            </div>
-                            <div>
-                                <input class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" type="password" data-val="true" data-val-equalto="The password and confirmation password do not match." data-val-equalto-other="*.Password" id="Input_ConfirmPassword" name="Input.ConfirmPassword">
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Input.ConfirmPassword" data-valmsg-replace="true"></span>
-                            </div>
-                            <button id="registerSubmit" type="submit" class="button small secondary">Register</button>
-                            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LKdo4D42AlItGEmIKPOcdBXhTxd2ceT-x-K3eO5_FNqovqryH8vvPmvLjdEjTsjI4BP70AwLHRB-yTC8PYa8SGS6I2GeZ0r6vWgQ0GugZBAuksxAYb9btMRy4E3FR6x4jlYrtr7HZUazpbpSmP9xlQ">
+                        <form action="/Home/Profile" method="post" style="width: 100%">
+                            <input class="form-control"  type="text" name="username" required placeholder="Username"> 
+                            <input class="form-control"  type="password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}" title="Password must have at least one non-alphanumeric character, one uppercase letter, and be at least 6 characters long" placeholder="Password"> 
+                            <input class="form-control"  type="email" name="email" required placeholder="Email"> 
+                            <input class="form-control"  type="text" name="userImageLink" required placeholder="User Image Link"> 
+                            <input class="form-control"  type="text" name="name" required placeholder="Name"> 
+                            <input class="form-control"  type="text" name="surname" required placeholder="Surname"> 
+                            <textarea class="form-control"  name="description" required placeholder="Description"></textarea> 
+                            <input type="submit" value="Register" class="button small secondary">
                         </form>
                         <p><b>Note:</b> Passwords must have at least one non alphanumeric character, at least one uppercase ('A'-'Z'), and the lenght is min. 6 character.</p>
                     </div>

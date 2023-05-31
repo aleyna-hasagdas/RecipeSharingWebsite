@@ -21,6 +21,11 @@ namespace RecipeAleyna.Controllers
                 return View("Error");
             }
         }
+        
+        public IActionResult Detail()
+        {
+            return View();
+        }
 
         private List<RecipeModel> GetRecipesFromDatabase()
         {
