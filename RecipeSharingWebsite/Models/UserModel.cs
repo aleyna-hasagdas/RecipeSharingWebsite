@@ -4,7 +4,8 @@ namespace RecipeAleyna.Models;
 
 public class UserModel
 {
-        public int UserId { get; set; }
+        [Key]
+        public int id { get; set; }
         [Required]
         public string? Username { get; set; }
         

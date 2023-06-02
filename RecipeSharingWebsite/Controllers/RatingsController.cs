@@ -17,7 +17,7 @@ namespace RecipeAleyna.Controllers
 
         public IActionResult Rate(int id, int rating)
         {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.Id == id);
 
             if (recipe == null)
             {
@@ -38,7 +38,7 @@ namespace RecipeAleyna.Controllers
 
         public IActionResult RecipePage(int id)
         {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.Id == id);
 
             if (recipe == null)
             {

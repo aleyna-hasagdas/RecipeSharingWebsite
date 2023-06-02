@@ -1,63 +1,11 @@
-﻿@using RecipeAleyna.Controllers
+﻿@using System.Globalization
+@model List<Recipe>
+
 @{
     ViewData["Title"] = "Home Page";
     ViewData["Heading"] = "Find best recipes for cooking";
     
     var selectedCategory = ViewContext.HttpContext.Request.Query["category"].ToString();
-    
-    var recipes = new[]
-{
-    new { 
-        Name = "Chocolate Chip Cookies", 
-        Category = "Desserts",
-        Writer = "John Doe",
-        ImageLink = "https://images-gmi-pmc.edge-generalmills.com/087d17eb-500e-4b26-abd1-4f9ffa96a2c6.jpg", 
-        Ingredients = new[] { "Flour", "Sugar", "Butter", "Chocolate Chips", "Vanilla Extract" },
-        Instructions = "1. Preheat oven to 350°F. 2. In a mixing bowl, cream together butter and sugar. 3. Add eggs and vanilla extract, and mix well. 4. In a separate bowl, combine flour and chocolate chips. 5. Gradually add the dry ingredients to the wet ingredients and mix until well combined. 6. Drop spoonfuls of dough onto a baking sheet. 7. Bake for 10-12 minutes or until golden brown. 8. Let cool before serving."
-    },
-    new { 
-        Name = "Spaghetti Bolognese", 
-        Category = "Main",
-        Writer = "Jane Smith",
-        ImageLink = "https://recipetineats.com/wp-content/uploads/2018/07/Spaghetti-Bolognese.jpg", 
-        Ingredients = new[] { "Ground Beef", "Onion", "Garlic", "Tomato Sauce", "Italian Seasoning", "Spaghetti" },
-        Instructions = "1. In a large skillet, cook ground beef over medium heat until browned. 2. Add chopped onion and minced garlic, and cook until onion is tender. 3. Stir in tomato sauce and Italian seasoning. Simmer for 20 minutes. 4. Cook spaghetti according to package instructions. 5. Serve the Bolognese sauce over the cooked spaghetti."
-    },
-    new { 
-        Name = "Caesar Salad", 
-        Category = "Salads",
-        Writer = "Mike Johnson",
-        ImageLink = "https://www.jessicagavin.com/wp-content/uploads/2022/06/chicken-caesar-salad-28-1200.jpg", 
-        Ingredients = new[] { "Romaine Lettuce", "Croutons", "Parmesan Cheese", "Caesar Dressing" },
-        Instructions = "1. Tear the romaine lettuce into bite-sized pieces. 2. Add croutons and grated Parmesan cheese. 3. Drizzle Caesar dressing over the salad. 4. Toss the ingredients until well coated. 5. Serve immediately."
-    },
-    new { 
-        Name = "Pancakes", 
-        Category = "Breakfast",
-        Writer = "Sarah Williams",
-        ImageLink = "https://www.wholesomeyum.com/wp-content/uploads/2017/03/wholesomeyum-Low-Carb-Keto-Pancakes-Recipe-21.jpg",
-        Ingredients = new[] { "Flour", "Sugar", "Baking Powder", "Salt", "Milk", "Egg", "Butter" },
-        Instructions = "1. In a mixing bowl, combine flour, sugar, baking powder, and salt. 2. In a separate bowl, whisk together milk, egg, and melted butter. 3. Gradually add the wet ingredients to the dry ingredients and mix until just combined. 4. Heat a griddle or non-stick skillet over medium heat. 5. Pour 1/4 cup of batter onto the griddle for each pancake. 6. Cook until bubbles form on the surface, then flip and cook until golden brown. 7. Serve with maple syrup or your desired toppings."
-    },
-    new { 
-        Name = "Chicken Stir-Fry", 
-        Category = "Main",
-        Writer = "Emily Wilson",
-        ImageLink = "https://www.saltandlavender.com/wp-content/uploads/2020/07/teriyaki-chicken-stir-fry-recipe-2.jpg",
-        Ingredients = new[] { "Chicken Breast", "Bell Pepper", "Broccoli", "Carrot", "Garlic", "Ginger", "Soy Sauce", "Sesame Oil" },
-        Instructions = "1. Cut chicken breast into bite-sized pieces. 2. Heat oil in a wok or large skillet over high heat. 3. Add minced garlic and grated ginger, and cook for 1 minute. 4. Add chicken and stir-fry until cooked through. 5. Add sliced bell pepper, broccoli florets, and julienned carrot. Stir-fry for a few more minutes until vegetables are tender-crisp. 6. In a small bowl, whisk together soy sauce and sesame oil. 7. Pour the sauce over the stir-fry and toss to coat. 8. Serve hot with steamed rice or noodles."
-    },
-    new { 
-        Name = "Caprese Salad", 
-        Category = "Salads",
-        Writer = "David Miller",
-        ImageLink = "https://www.wholesomeyum.com/wp-content/uploads/2022/05/wholesomeyum-Caprese-Salad-5.jpg",
-        Ingredients = new[] { "Tomatoes", "Fresh Mozzarella", "Fresh Basil", "Extra Virgin Olive Oil", "Balsamic Glaze", "Salt", "Pepper" },
-        Instructions = "1. Slice tomatoes and fresh mozzarella into rounds. 2. Arrange tomato and mozzarella slices on a platter. 3. Tear fresh basil leaves and scatter over the tomatoes and mozzarella. 4. Drizzle with extra virgin olive oil and balsamic glaze. 5. Sprinkle with salt and pepper to taste. 6. Serve as a side dish or appetizer."
-    }
-
-};
-
 }
 
 <div class="container">
@@ -75,32 +23,40 @@
         </div>
         
         <div class="recipes" style="display: flex; flex-wrap: wrap; justify-content: space-between; row-gap: 1em;">
-            @foreach (var recipe in recipes)
+            
+            @if (Model.Count > 0)
             {
-                if (string.IsNullOrEmpty(selectedCategory) || string.Equals(recipe.Category, selectedCategory, StringComparison.OrdinalIgnoreCase))
-                {
-                    <div class="content-container recipe">
-                        <a href="/recipes/detail?term=@recipe.Name">
-                            <img src=@recipe.ImageLink alt="recipe" />
-                        </a>
-                        <h6>@recipe.Name</h6>
-                        <p class="description">by @recipe.Writer</p>
-                    </div>
-                }
+                    @foreach (var recipe in Model)
+                    {
+                        if (string.IsNullOrEmpty(selectedCategory) || string.Equals(recipe.Category, selectedCategory, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <div class="content-container recipe">
+                                <a href="/Recipes/Detail/@recipe.Id">
+                                    <img src=@recipe.Image alt="recipe"/>
+                                </a>
+                                <h6>@recipe.Name</h6>
+                                <p class="description">@recipe.date_added.ToString("MMMM d, yyyy")</p>
+                            </div>
+                        }
+                    }
+            }
+            else
+            {
+                <p>No recipes found.</p>
             }
         </div>
 
 
         <h5>Trending now 🔥</h5>
         <div class="trends overflow-x-container">
-            @foreach (var recipe in recipes)
+            @foreach (var recipe in Model)
             {
                 <div class="content-container recipe">
                     <a href="/recipes/detail?term=@recipe.Name">
-                        <img src=@recipe.ImageLink alt="recipe"/>
+                        <img src=@recipe.Image alt="recipe"/>
                     </a>
                     <h6>@recipe.Name</h6>
-                    <p class="description">by @recipe.Writer</p>
+                    <p class="description">@recipe.date_added.ToString("MMMM d, yyyy")</p>
                 </div>
             }
             

@@ -17,7 +17,8 @@ namespace RecipeAleyna.Controllers
         
         public IActionResult Index()
         {
-            return View();
+            List<Recipe> recipes = _dbContext.Recipes.ToList();
+            return View(recipes);
         }
         
         [HttpPost]

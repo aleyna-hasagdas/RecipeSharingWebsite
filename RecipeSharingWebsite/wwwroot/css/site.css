@@ -317,3 +317,39 @@ img {
   line-height: 1.5em;
   margin: 12px 0 0 0;
 }
+
+.mini-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mini-profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-bottom: 12px;
+}
+
+.rating {
+  display: inline-block;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating label {
+  float: right;
+  color: #ddd;
+  font-size: 30px;
+}
+
+.rating label:before {
+  content: '\2605'; /* Unicode character for star */
+  margin-right: 5px;
+}
+
+.rating input:checked ~ label {
+  color: #d79f11; /* Color of selected stars */
+}

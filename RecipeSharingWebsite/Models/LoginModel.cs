@@ -4,7 +4,6 @@ namespace RecipeAleyna.Models
 {
     public class LoginModel
     {
-
         [Required]
         public string? Username { get; set; }
         

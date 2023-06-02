@@ -5,7 +5,7 @@ namespace RecipeAleyna.Data
 {
     public class RecipeDbContext : DbContext
     {
-        public DbSet<RecipeModel> Recipes { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RatingsModel> Ratings { get; set; }
         public DbSet<FavoritesModel> Favorites { get; set; }
         public DbSet<UserModel> User { get; set; }

@@ -1,76 +1,18 @@
+@model RecipeAleyna.Models.Recipe
 @{
     ViewData["Title"] = "Recipe Detail";
     
-     var recipes = new[]
-{
-    new { 
-        Name = "Chocolate Chip Cookies", 
-        Category = "Desserts",
-        Writer = "John Doe",
-        ImageLink = "https://images-gmi-pmc.edge-generalmills.com/087d17eb-500e-4b26-abd1-4f9ffa96a2c6.jpg", 
-        Ingredients = new[] { "Flour", "Sugar", "Butter", "Chocolate Chips", "Vanilla Extract" },
-        Instructions = "Preheat oven to 350°F. . In a mixing bowl, cream together butter and sugar. . Add eggs and vanilla extract, and mix well. . In a separate bowl, combine flour and chocolate chips. . Gradually add the dry ingredients to the wet ingredients and mix until well combined. . Drop spoonfuls of dough onto a baking sheet. . Bake for 10-12 minutes or until golden brown. . Let cool before serving."
-    },
-    new { 
-        Name = "Spaghetti Bolognese", 
-        Category = "Main",
-        Writer = "Jane Smith",
-        ImageLink = "https://recipetineats.com/wp-content/uploads/2018/07/Spaghetti-Bolognese.jpg", 
-        Ingredients = new[] { "Ground Beef", "Onion", "Garlic", "Tomato Sauce", "Italian Seasoning", "Spaghetti" },
-        Instructions = "In a large skillet, cook ground beef over medium heat until browned. . Add chopped onion and minced garlic, and cook until onion is tender. . Stir in tomato sauce and Italian seasoning. Simmer for 20 minutes. . Cook spaghetti according to package instructions. . Serve the Bolognese sauce over the cooked spaghetti."
-    },
-    new { 
-        Name = "Caesar Salad", 
-        Category = "Salads",
-        Writer = "Mike Johnson",
-        ImageLink = "https://www.jessicagavin.com/wp-content/uploads/2022/06/chicken-caesar-salad-28-1200.jpg", 
-        Ingredients = new[] { "Romaine Lettuce", "Croutons", "Parmesan Cheese", "Caesar Dressing" },
-        Instructions = "Tear the romaine lettuce into bite-sized pieces. . Add croutons and grated Parmesan cheese. . Drizzle Caesar dressing over the salad. . Toss the ingredients until well coated. . Serve immediately."
-    },
-    new { 
-        Name = "Pancakes", 
-        Category = "Breakfast",
-        Writer = "Sarah Williams",
-        ImageLink = "https://www.wholesomeyum.com/wp-content/uploads/2017/03/wholesomeyum-Low-Carb-Keto-Pancakes-Recipe-21.jpg",
-        Ingredients = new[] { "Flour", "Sugar", "Baking Powder", "Salt", "Milk", "Egg", "Butter" },
-        Instructions = "In a mixing bowl, combine flour, sugar, baking powder, and salt. . In a separate bowl, whisk together milk, egg, and melted butter. . Gradually add the wet ingredients to the dry ingredients and mix until just combined. . Heat a griddle or non-stick skillet over medium heat. . Pour 1/4 cup of batter onto the griddle for each pancake. . Cook until bubbles form on the surface, then flip and cook until golden brown. . Serve with maple syrup or your desired toppings."
-    },
-    new { 
-        Name = "Chicken Stir-Fry", 
-        Category = "Main",
-        Writer = "Emily Wilson",
-        ImageLink = "https://www.saltandlavender.com/wp-content/uploads/2020/07/teriyaki-chicken-stir-fry-recipe-2.jpg",
-        Ingredients = new[] { "Chicken Breast", "Bell Pepper", "Broccoli", "Carrot", "Garlic", "Ginger", "Soy Sauce", "Sesame Oil" },
-        Instructions = "Cut chicken breast into bite-sized pieces. . Heat oil in a wok or large skillet over high heat. . Add minced garlic and grated ginger, and cook for 1 minute. . Add chicken and stir-fry until cooked through. . Add sliced bell pepper, broccoli florets, and julienned carrot. Stir-fry for a few more minutes until vegetables are tender-crisp. . In a small bowl, whisk together soy sauce and sesame oil. . Pour the sauce over the stir-fry and toss to coat. . Serve hot with steamed rice or noodles."
-    },
-    new { 
-        Name = "Caprese Salad", 
-        Category = "Salads",
-        Writer = "David Miller",
-        ImageLink = "https://www.wholesomeyum.com/wp-content/uploads/2022/05/wholesomeyum-Caprese-Salad-5.jpg",
-        Ingredients = new[] { "Tomatoes", "Fresh Mozzarella", "Fresh Basil", "Extra Virgin Olive Oil", "Balsamic Glaze", "Salt", "Pepper" },
-        Instructions = "Slice tomatoes and fresh mozzarella into rounds. . Arrange tomato and mozzarella slices on a platter. . Tear fresh basil leaves and scatter over the tomatoes and mozzarella. . Drizzle with extra virgin olive oil and balsamic glaze. . Sprinkle with salt and pepper to taste. . Serve as a side dish or appetizer."
-    }
-
-};
-    
-    string searchTerm = Context.Request.Query["term"];
-    var filteredRecipes = recipes.Where(recipe => recipe.Name.Contains(searchTerm));
-    var firstRecipe = filteredRecipes.FirstOrDefault();
-
-    string instructions = firstRecipe.Instructions;
-    
-    string[] steps = instructions.Split(new[] { " . " }, StringSplitOptions.RemoveEmptyEntries);
+    string[] ingredients = Model.Ingredients.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
 
 }
 
 <div class="container">
     <div id="recipeDetail" class="page-container">
-        <h4>@firstRecipe.Name</h4>
-        <img src="@firstRecipe.ImageLink" alt="Recipe"/>
+        <h4>@Model.Name</h4>
+        <img src="@Model.Image" alt="Recipe"/>
         <p style="margin-bottom: 0">
-            <b>Category 🥗</b> @firstRecipe.Category<br>
-            <b>Writer ✨</b> @firstRecipe.Writer
+            <b>Category:</b> @Model.Category<br>
+            <b>Date Added:</b> @Model.date_added ✨
         </p>
         <div class="rating">
           <input type="radio" id="star5" name="rating" value="5">
@@ -87,18 +29,15 @@
 
         <h5>Ingredients</h5>
         <div style="width: 100%; display: flex; flex-direction: column; gap: 20px;">
-            @foreach (var ingredient in firstRecipe.Ingredients)
+            @foreach (var ingredient in ingredients)
             {
                 <span class="field" style="background-color: rgba(229,229,229,0.65); font-weight: 600;">@ingredient</span>
             }
         </div>
         
         <h5>Instructions</h5>
-        <ol>
-            @foreach (var step in steps)
-            {
-                <li>@step</li>
-            }
-            </ol>
+        <p>
+            @Model.Instructions
+        </p>
     </div>
 </div>
