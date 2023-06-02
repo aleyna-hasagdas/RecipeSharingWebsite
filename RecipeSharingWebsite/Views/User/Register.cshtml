@@ -1,0 +1,60 @@
+@model User
+
+@{
+    ViewData["Title"] = "Register";
+    ViewData["Heading"]= "Register";
+}
+
+<div class="container">
+    <div id="profile" class="page-container">
+        <div class="button-container">
+            <button class="button small primary">Register</button>
+            <a href="/User/Login">
+                <button class="button small secondary">Login</button>
+            </a>
+        </div>
+        <h4>Register</h4>
+        <h5>Create a new account.</h5>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(model => model.Username)
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Username)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password)
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Surname)
+                @Html.TextBoxFor(model => model.Surname, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Surname)
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create Your Account" class="button small primary"/>
+            </div>
+        }
+
+        <p><b>Note:</b> Passwords must have at least one non alphanumeric character, at least one uppercase ('A'-'Z'), and the lenght is min. 6 character.</p>
+
+    </div>
+</div>

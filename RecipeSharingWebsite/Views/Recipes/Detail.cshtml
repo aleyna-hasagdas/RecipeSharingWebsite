@@ -1,8 +1,9 @@
-@model RecipeAleyna.Models.Recipe
+@model Recipe
+
 @{
     ViewData["Title"] = "Recipe Detail";
     
-    string[] ingredients = Model.Ingredients.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+    string[] ingredients = Model.Ingredients!.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
 
 }
 
@@ -39,5 +40,15 @@
         <p>
             @Model.Instructions
         </p>
+        
+        @using (Html.BeginForm("Delete", "Recipes", new { id = Model.Id }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <p>Are you sure you want to delete this recipe?</p>
+                <input type="submit" value="Delete" class="btn btn-danger"/>
+            </div>
+        }
     </div>
 </div>

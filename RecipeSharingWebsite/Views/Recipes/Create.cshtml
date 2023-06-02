@@ -4,80 +4,77 @@
     ViewData["Title"] = "Create Recipe";
     ViewData["Heading"] = "Create Recipe";
     ViewData["DefaultImage"] = "https://media.istockphoto.com/id/1354776457/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=w3OW0wX3LyiFRuDHo9A32Q0IUMtD4yjXEvQlqyYk9O4=";
+
 }
 
 <div class="container">
-  <div id="createRecipe" class="page-container">
-    <h4>@ViewData["Heading"]</h4>
-      <div id="previewImageContainer">
-        <img id="previewImage" src=@ViewData["DefaultImage"] alt="Recipe Preview" />
+    <div id="createRecipe" class="page-container">
+        <h4>@ViewData["Heading"]</h4>
+        
+@using (Html.BeginForm("Create", "Recipes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+        <div id="previewImageContainer">
+            <img id="previewImage" src=@ViewData["DefaultImage"] alt="Recipe Preview"/>
         </div>
-    <form id="recipeForm" onsubmit="submitCreateRecipeForm(event)">
-      <h5>Name & Details</h5>
-      <input type="text" id="recipeName" placeholder="Recipe Name" class="field" name="recipeName" required>
-      <textarea class="field" placeholder="Description" id="description" name="description" rows="4" required></textarea>
-      <input type="text" id="category" placeholder="Category" class="field" name="category" required>
-      <textarea class="field" placeholder="Instructions" id="instructions" name="instructions" rows="4" required></textarea>
-      <h5>Image</h5>
-      <input type="url" id="recipeImage" placeholder="Recipe Image URL" class="field" name="recipeImage" onchange="updatePreviewImage()" required>
-      <h5>Ingredients</h5>
-      <div id="ingredientContainer">
-        <div class="ingredient-row ingredients button-container">
-          <input class="field" placeholder="Item name" type="text" name="ingredient[]" required>
-          <input class="field" placeholder="Quantity" type="text" name="quantity[]" required>
-          <button type="button" class="button" onclick="addIngredient()">+</button>
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control field" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
         </div>
-      </div>
-      <div class="button-container">
-        <button class="button large primary" type="submit">Create Recipe</button>
-      </div>
-    </form>
-  </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control field" } })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control field" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Instructions, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.TextAreaFor(model => model.Instructions, new { @class = "form-control field" })
+                @Html.ValidationMessageFor(model => model.Instructions, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image)
+            <div>
+                @Html.TextBoxFor(model => model.Image, new { @class = "form-control field" })
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+         <div class="form-group">
+             @Html.LabelFor(model => model.Ingredients)
+             <div>
+                @Html.TextAreaFor(model => model.Ingredients, new { @class = "form-control field" })
+                @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="button-container">
+                <input type="submit" value="Create Recipe" class="button large primary"/>
+            </div>
+        </div>
+}
+        
+    </div>
 </div>
-
-<script>
-  function addIngredient() {
-    var ingredientContainer = document.getElementById("ingredientContainer");
-    var newIngredientRow = document.createElement("div");
-    newIngredientRow.className = "ingredient-row ingredients button-container";
-
-    var ingredientInput = document.createElement("input");
-    ingredientInput.type = "text";
-    ingredientInput.name = "ingredient[]";
-    ingredientInput.className = "field";
-    ingredientInput.placeholder = "Item name";
-    ingredientInput.required = true;
-
-    var quantityInput = document.createElement("input");
-    quantityInput.type = "text";
-    quantityInput.name = "quantity[]";
-    quantityInput.className = "field";
-    quantityInput.placeholder = "Quantity";
-    quantityInput.required = true;
-
-    var removeButton = document.createElement("button");
-    removeButton.innerHTML = "-";
-    removeButton.type = "button";
-    removeButton.className = "button";
-    removeButton.onclick = function() {
-      ingredientContainer.removeChild(newIngredientRow);
-    };
-
-    newIngredientRow.appendChild(ingredientInput);
-    newIngredientRow.appendChild(quantityInput);
-    newIngredientRow.appendChild(removeButton);
-    ingredientContainer.appendChild(newIngredientRow);
-  }
-  
-  function updatePreviewImage() {
-      var recipeImageInput = document.getElementById('recipeImage');
-      var previewImage = document.getElementById('previewImage');
-      var defaultImageUrl = "https://media.istockphoto.com/id/1354776457/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=w3OW0wX3LyiFRuDHo9A32Q0IUMtD4yjXEvQlqyYk9O4=";
-  
-      if (recipeImageInput.value === '') {
-        previewImage.src = defaultImageUrl;
-      } else {
-        previewImage.src = recipeImageInput.value;
-      }
-    }
-</script>

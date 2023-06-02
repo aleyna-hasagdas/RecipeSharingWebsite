@@ -15,11 +15,17 @@ namespace RecipeAleyna.Controllers
         }
         
         // GET: /Recipes/Index
-        public IActionResult Index()
+        public ActionResult RedirectRecipes()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
+        public ActionResult Index()
         {
             List<Recipe> recipes = _dbContext.Recipes.ToList();
             return View(recipes);
         }
+
 
         // GET: /Recipes/Detail/5
         public IActionResult Detail(int id)
@@ -38,20 +44,22 @@ namespace RecipeAleyna.Controllers
             return View();
         }
 
-        // POST: /Recipes/Create
+        // POST: Recipes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Recipe recipe)
+        public ActionResult Create(Recipe recipe)
         {
             if (ModelState.IsValid)
             {
                 recipe.date_added = DateTime.Now;
                 _dbContext.Recipes.Add(recipe);
                 _dbContext.SaveChanges();
-                return RedirectToAction("Index", "Home"); // Redirect to the home page or any other appropriate action
+                return RedirectToAction("Detail", new { recipe.Id });
             }
-            return View(recipe);
+
+            return View();
         }
+
         
         // GET: /Recipe/Edit/5
         public IActionResult Edit(int id)
@@ -78,36 +86,22 @@ namespace RecipeAleyna.Controllers
             {
                 _dbContext.Update(recipe);
                 _dbContext.SaveChanges();
-                return RedirectToAction("Details", new { id });
+                return RedirectToAction("Detail", new { id });
             }
             return View(recipe);
         }
 
-        // GET: /Recipe/Delete/5
-        public IActionResult Delete(int id)
-        {
-            Recipe recipe = _dbContext.Recipes.Find(id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-            return View(recipe);
-        }
+        
 
-        // POST: /Recipe/Delete/5
-        [HttpPost]
+        // POST: Recipes/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
             Recipe recipe = _dbContext.Recipes.Find(id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
             _dbContext.Recipes.Remove(recipe);
             _dbContext.SaveChanges();
-            return RedirectToAction("Index", "Home"); // Redirect to the home page or any other appropriate action
+            return RedirectToAction("Index");
         }
     }
 }

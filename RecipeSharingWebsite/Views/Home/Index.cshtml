@@ -52,7 +52,7 @@
             @foreach (var recipe in Model)
             {
                 <div class="content-container recipe">
-                    <a href="/recipes/detail?term=@recipe.Name">
+                    <a href="/Recipes/Detail/@recipe.Id">
                         <img src=@recipe.Image alt="recipe"/>
                     </a>
                     <h6>@recipe.Name</h6>
