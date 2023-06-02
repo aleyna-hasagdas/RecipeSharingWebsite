@@ -1,28 +1,92 @@
-﻿@model List<Recipe>
+@model List<Recipe>
 
-<h1>Recipe List</h1>
+@{
+    ViewData["Title"] = "Recipes";
+    
+    var selectedCategory = ViewContext.HttpContext.Request.Query["category"].ToString();
+}
 
-@if (Model.Count > 0)
-{
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Date Added</th>
-        </tr>
-        @foreach (var recipe in Model)
+
+<div class="container">
+    <div id="recipes" class="page-container">
+        <input type="text" class="field" placeholder="Search" id="searchInput" />
+        <div class="categories overflow-x-container">
+            <button class="button small secondary @(IsCategoryActive("All", selectedCategory))" onclick="ShowRecipes('All')">All</button>
+            <button class="button small secondary @(IsCategoryActive("Salads", selectedCategory))" onclick="ShowRecipes('Salads')">Salads</button>
+            <button class="button small secondary @(IsCategoryActive("Main", selectedCategory))" onclick="ShowRecipes('Main')">Main</button>
+            <button class="button small secondary @(IsCategoryActive("Desserts", selectedCategory))" onclick="ShowRecipes('Desserts')">Desserts</button>
+            <button class="button small secondary @(IsCategoryActive("Breakfast", selectedCategory))" onclick="ShowRecipes('Breakfast')">Breakfast</button>
+        </div>
+                
+        <div class="recipes" style="display: flex; flex-wrap: wrap; justify-content: space-between; row-gap: 1em;">
+
+            @if (Model.Count > 0)
+            {
+                @foreach (var recipe in Model)
+                {
+                    if (string.IsNullOrEmpty(selectedCategory) || string.Equals(recipe.Category, selectedCategory, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <div class="content-container recipe">
+                            <a href="/Recipes/Detail/@recipe.Id">
+                                <img src=@recipe.Image alt="recipe"/>
+                            </a>
+                            <h6>@recipe.Name</h6>
+                            <p class="description">@recipe.date_added.ToString("MMMM d, yyyy")</p>
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <p>No recipes found.</p>
+            }
+
+        </div>
+    </div>
+</div>
+
+@functions {
+    private string IsCategoryActive(string category, string selectedCategory)
+    {
+        string activeClass = string.Empty;
+        
+        if (string.Equals(selectedCategory, category, StringComparison.OrdinalIgnoreCase))
         {
-            <a href="/Recipes/Detail/@recipe.Id">
-                <td>@recipe.Name</td>
-                <td>@recipe.Category</td>
-                <td>@recipe.Description</td>
-                <td>@recipe.date_added</td>
-            </a>
+            activeClass = "primary";
         }
-    </table>
+        else if (string.IsNullOrEmpty(selectedCategory) && string.Equals(category, "All", StringComparison.OrdinalIgnoreCase))
+        {
+            activeClass = "secondary";
+        }
+
+        return activeClass;
+    }
+
 }
-else
-{
-    <p>No recipes found.</p>
-}
+
+
+<script>
+        // Recipe search functionality
+        const searchInput = document.getElementById('searchInput');
+        const recipesContainer = document.querySelector('.recipes');
+
+        searchInput.addEventListener('input', function (event) {
+            const searchText = event.target.value.toLowerCase();
+            const recipeElements = recipesContainer.getElementsByClassName('recipe');
+
+            for (const recipeElement of recipeElements) {
+                const recipeName = recipeElement.querySelector('h6').innerText.toLowerCase();
+                if (recipeName.includes(searchText)) {
+                    recipeElement.style.display = 'block';
+                } else {
+                    recipeElement.style.display = 'none';
+                }
+            }
+        });
+        
+        function ShowRecipes(category) {
+            category == "All" ? (window.location.href = '/') : (window.location.href = '/?category=' + category)
+        }
+            
+</script>
+    

@@ -19,20 +19,11 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         List<Recipe> recipes = _dbContext.Recipes.ToList();
+        
         return View(recipes);
     }
 
     public IActionResult Privacy()
-    {
-        return View();
-    }
-    
-    public IActionResult Profile()
-    {
-        return View();
-    }
-    
-    public IActionResult ProfileSena()
     {
         return View();
     }

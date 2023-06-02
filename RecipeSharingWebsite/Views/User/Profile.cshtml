@@ -1,0 +1,21 @@
+@model User
+
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["Heading"]= "Profile";
+}
+
+<div class="container">
+    <div id="profile" class="page-container">
+        <h4>Profile</h4>
+        <h2>Welcome @Model.Name!</h2>
+        <p>
+            Your information on our database<br>
+            Username: @Model.Username<br>
+            Email: @Model.Email<br>
+            Name: @Model.Name<br>
+            Surname: @Model.Surname
+        </p>
+                     
+    </div>
+</div>

@@ -1,8 +1,9 @@
-@model RecipeAleyna.Models.Recipe
+@model Recipe
+
 @{
     ViewData["Title"] = "Recipe Detail";
     
-    string[] ingredients = Model.Ingredients.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+    string[] ingredients = Model.Ingredients!.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
 
 }
 
@@ -14,18 +15,6 @@
             <b>Category:</b> @Model.Category<br>
             <b>Date Added:</b> @Model.date_added ✨
         </p>
-        <div class="rating">
-          <input type="radio" id="star5" name="rating" value="5">
-          <label for="star5"></label>
-          <input type="radio" id="star4" name="rating" value="4">
-          <label for="star4"></label>
-          <input type="radio" id="star3" name="rating" value="3">
-          <label for="star3"></label>
-          <input type="radio" id="star2" name="rating" value="2">
-          <label for="star2"></label>
-          <input type="radio" id="star1" name="rating" value="1">
-          <label for="star1"></label>
-        </div>
 
         <h5>Ingredients</h5>
         <div style="width: 100%; display: flex; flex-direction: column; gap: 20px;">
@@ -39,5 +28,15 @@
         <p>
             @Model.Instructions
         </p>
+        
+        @using (Html.BeginForm("Delete", "Recipes", new { id = Model.Id }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label><b>Are you sure you want to delete this recipe?</b></label>
+                <input type="submit" value="Delete" class="btn btn-danger"/>
+            </div>
+        }
     </div>
 </div>

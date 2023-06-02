@@ -88,57 +88,30 @@ function submitSignInForm(event) {
 
 
 // Create Recipe Form
-function submitCreateRecipeForm(event) {
-    event.preventDefault();
+function submitCreateRecipeForm() {
+    event.preventDefault(); 
+    
+    const form = document.getElementById('recipeForm');
+    const formData = new FormData(form);
 
-    var recipeName = document.getElementById('recipeName').value;
-    var description = document.getElementById('description').value;
-    var category = document.getElementById('category').value;
-    var recipeImage = document.getElementById('recipeImage').value;
-    var instructions = document.getElementById('instructions').value;
-    var ingredients = [];
-
-    var ingredientInputs = document.getElementsByName('ingredient[]');
-    var quantityInputs = document.getElementsByName('quantity[]');
-
-
-    for (var i = 0; i < ingredientInputs.length; i++) {
-        var ingredient = ingredientInputs[i].value;
-        var quantity = quantityInputs[i].value;
-        ingredients.push({ ingredient: ingredient, quantity: quantity });
-    }
-
-    var formData = {
-        recipeName: recipeName,
-        description: description,
-        category: category,
-        recipeImage: recipeImage,
-        instructions: instructions,
-        ingredients: ingredients
-    };
-
-    // Send the form data to the server
-    fetch(server + "/Recipes/Create", {
+    fetch('/Recipes/Create', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        body: formData
     })
-        .then(function(response) {
+        .then(response => {
             if (response.ok) {
-                // Recipe created successfully
-                alert('Recipe created successfully!');
-                document.getElementById('recipeForm').reset();
+                // Redirect to the recipe details page on successful creation
+                window.location.href = '/Recipes/Detail/' + response.id;
             } else {
-                alert('Error creating recipe. Please try again.');
+                // Handle errors or display error messages
+                console.error('Error creating recipe:', response.statusText);
             }
         })
-        .catch(function(error) {
-            console.error('Error:', error);
-            alert('Error creating recipe. Please try again.');
+        .catch(error => {
+            console.error('Error creating recipe:', error);
         });
 }
+
 
 
 // Function to check if the user is logged in
