@@ -1,100 +1,113 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using RecipeAleyna.Data;
 using RecipeAleyna.Models;
+using System;
 
 namespace RecipeAleyna.Controllers
 {
     public class RecipesController : Controller
     {
+        private readonly RecipeDbContext _dbContext;
+
+        public RecipesController(RecipeDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+        
+        // GET: /Recipe/Index
         public IActionResult Index()
         {
-            try
-            {
-                List<RecipeModel> recipes = GetRecipesFromDatabase();
-
-                return View(recipes);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return View("Error");
-            }
+            List<Recipe> recipes = _dbContext.Recipes.ToList();
+            return View(recipes);
         }
-        
-        public IActionResult Detail()
+
+        // GET: /Recipe/Details/5
+        public IActionResult Detail(int id)
         {
-            return View();
-        }
-
-        private List<RecipeModel> GetRecipesFromDatabase()
-        {
-            List<RecipeModel> recipes = new List<RecipeModel>
+            Recipe recipe = _dbContext.Recipes.Find(id);
+            if (recipe == null)
             {
-                new RecipeModel { RecipeName = "Recipe 1", Description = "Description 1", Category = "Category 1" },
-                new RecipeModel { RecipeName = "Recipe 2", Description = "Description 2", Category = "Category 2" },
-                new RecipeModel { RecipeName = "Recipe 3", Description = "Description 3", Category = "Category 3" }
-            };
-
-            return recipes;
+                return NotFound();
+            }
+            return View(recipe);
         }
-        
-        [HttpGet]
-        [Route("/Recipes/Create")]
+
+        // GET: /Recipe/Create
         public IActionResult Create()
         {
             return View();
         }
-        
-        
+
+        // POST: /Recipe/Create
         [HttpPost]
-        [Route("/Recipes/Create")]
-        public IActionResult Create([FromBody] RecipeModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Recipe recipe)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // Hocam, aşağıdaki kodu düzeltme şansımız olmadığından dolayı bir yorum satırı gibi eklemek istedik.
-                // SaveRecipeToDatabase(model);
-                
-                return Ok();
+                recipe.date_added = DateTime.Now;
+                _dbContext.Recipes.Add(recipe);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index", "Home"); // Redirect to the home page or any other appropriate action
             }
-            catch (Exception ex)
-            {
-                // Log the error and return an error response
-                Console.WriteLine(ex);
-                return BadRequest("Error creating recipe. Please try again.");
-            }
+            return View(recipe);
         }
         
-        
-        // Hocam, aşağıdaki kodu düzeltme şansımız olmadığından dolayı bir yorum satırı gibi eklemek istedik.
-        
-        /*
-        using (var dbContext = new RecipeDbContext())
-        { 
-            Recipe recipe = new Recipe 
-            { 
-                UserName = model.UserName, 
-                Description = model.Description, 
-                Category = model.Category, 
-                Image = model.Image,
-                Instructions = model.Instructions, 
-                DateAdded = DateTime.Now, // Şu anki tarih ve saat
-                RecipeName = model.RecipeName 
-            };
-            
-            foreach (var ingredient in model.Ingredients) 
-            { 
-                recipe.Ingredients.Add(new Ingredient 
-                {
-                    Name = ingredient,
-                    RecipeId = recipe.RecipeId // malzemeleri tarif ile bagladik
-                }); 
+        // GET: /Recipe/Edit/5
+        public IActionResult Edit(int id)
+        {
+            Recipe recipe = _dbContext.Recipes.Find(id);
+            if (recipe == null)
+            {
+                return NotFound();
             }
-            dbContext.Recipes.Add(recipe);
-            dbContext.SaveChanges(); 
-        } */
-        
-    }
+            return View(recipe);
+        }
 
+        // POST: /Recipe/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Recipe recipe)
+        {
+            if (id != recipe.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _dbContext.Update(recipe);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Details", new { id });
+            }
+            return View(recipe);
+        }
+
+        // GET: /Recipe/Delete/5
+        public IActionResult Delete(int id)
+        {
+            Recipe recipe = _dbContext.Recipes.Find(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+            return View(recipe);
+        }
+
+        // POST: /Recipe/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            Recipe recipe = _dbContext.Recipes.Find(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Recipes.Remove(recipe);
+            _dbContext.SaveChanges();
+            return RedirectToAction("Index", "Home"); // Redirect to the home page or any other appropriate action
+        }
+    }
 }

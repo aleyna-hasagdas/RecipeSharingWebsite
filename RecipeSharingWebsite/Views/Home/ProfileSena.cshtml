@@ -1,8 +1,19 @@
 @{
-    ViewData["Title"] = "Favorites";
-    ViewData["Heading"]= "Favorites of the month 🌽";
+    ViewData["Title"] = "Profile";
+    ViewData["Heading"]= "Profile";
+    var user = new UserModel
+    {
+        id = 1,
+        Username = "sampleUser",
+        Password = "samplePassword",
+        Email = "sena.oz@boun.edu.tr",
+        UserImageLink = "https://media.licdn.com/dms/image/D4D03AQFd9MdgsxoUxA/profile-displayphoto-shrink_400_400/0/1664549186379?e=1689811200&v=beta&t=JFQzqCi0hKSnQ3VsNTguiTQCW0Z8aIyZGf4Liq_dgV0",
+        Name = "Sena",
+        Surname = "Oz",
+        Description = "Lorem ipsum dolor sit amet."
+    };
     
-    var favRecipes = new[]
+     var favRecipes = new[]
 {
     new { 
         Name = "Spaghetti Bolognese", 
@@ -42,28 +53,34 @@
     }
 
 };
+
 }
 
-
 <div class="container">
-    <div id="favorites" class="page-container">
-        <h4>@ViewData["Heading"]</h4>
-        <div class="favorites">
-            @foreach (var recipe in favRecipes)
-            {
-                <div class="favorite content-container">
-                    <a href="/recipes/detail?term=@recipe.Name">
-                        <img src=@recipe.ImageLink alt="recipe"/>
-                    </a>
-                    <h6>How to make @recipe.Name?</h6>
-                    <div class="mini-profile">
-                        <img src=@recipe.WriterImg />
-                        <p class="description">
-                            by @recipe.Writer
-                            </p>
-                    </div>
-                </div>
-            }
+    <div id="profile" class="page-container">
+        <div class="profile">
+            <img src=@user.UserImageLink alt="profile"/>
+            <h4>@user.Name @user.Surname</h4>
+            @user.Description <br/>
+            @user.Email
         </div>
     </div>
+    <br/>
+    <div class="favorites">
+                @foreach (var recipe in favRecipes)
+                {
+                    <div class="favorite content-container">
+                        <a href="/recipes/detail?term=@recipe.Name">
+                            <img src=@recipe.ImageLink alt="recipe"/>
+                        </a>
+                        <h6>How to make @recipe.Name?</h6>
+                        <div class="mini-profile">
+                                                <img src=@recipe.WriterImg />
+                                                <p class="description">
+                                                    by @recipe.Writer
+                                                    </p>
+                                            </div>
+                    </div>
+                }
+            </div>
 </div>

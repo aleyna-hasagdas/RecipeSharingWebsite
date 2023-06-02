@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace RecipeAleyna.Models;
 
 public class FavoritesModel
 {
-    public int FavoritesId { get; set; }
+    [Key]
+    public int Id { get; set; }
     public int UserId { get; set; }
     public int RecipeId { get; set; }
 }

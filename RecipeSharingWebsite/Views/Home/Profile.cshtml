@@ -3,7 +3,7 @@
     ViewData["Heading"]= "Profile";
     var user = new UserModel
     {
-        UserId = 1,
+        id = 1,
         Username = "sampleUser",
         Password = "samplePassword",
         Email = "sena.oz@boun.edu.tr",
@@ -13,46 +13,14 @@
         Description = "Lorem ipsum dolor sit amet."
     };
 
-    var providedEmail = "";
-    var providedPassword = "";
-    
-    string email = Context.Request.Query["email"];
-    string password = Context.Request.Query["password"];
-
-    if (Context.Request.Method == "POST")
-    {
-        providedEmail = Context.Request.Form["email"];
-        providedPassword = Context.Request.Form["password"];
-
-        if (user.Email == providedEmail && user.Password == providedPassword)
-        {
-            // Redirect to the profile page with info
-            Context.Response.Redirect("/Home/Profile?email=" + providedEmail + "&password=" + providedPassword);
-
-        }
-    }
-    
 }
 
 <div class="container">
-    @if (user.Email == email && user.Password == password)
-                {
-                    <div id="profile" class="page-container">
-                        <h4>@user.Name @user.Surname</h4>
-                        <div class="profile">
-                            <img src=@user.UserImageLink alt="profile"/>
-                            @user.Description <br/>
-                            @user.Email
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div id="profile" class="page-container">
+     <div id="profile" class="page-container">
                         <h4>Login</h4>
                         <h5>Use a local account to log in.</h5>
                         
-                        <form action="/Home/Profile" method="post" style="width: 100%">
+                        <form action="/Home/ProfileSena" method="post" style="width: 100%">
                             <input type="text" name="username" class="form-control" required placeholder="Email" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required.">
                             <input type="password" name="password" class="form-control" required placeholder="Password">
                             <input type="submit" value="Login" class="button small primary">
@@ -62,9 +30,9 @@
                         
                         <h4>Register</h4>
                         <h5>Create a new account.</h5>
-                        <form action="/Home/Profile" method="post" style="width: 100%">
+                        <form action="/Home/ProfileSena" method="post" style="width: 100%">
                             <input class="form-control"  type="text" name="username" required placeholder="Username"> 
-                            <input class="form-control"  type="password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}" title="Password must have at least one non-alphanumeric character, one uppercase letter, and be at least 6 characters long" placeholder="Password"> 
+                            <input class="form-control"  type="password" name="password" required title="Password must have at least one non-alphanumeric character, one uppercase letter, and be at least 6 characters long" placeholder="Password"> 
                             <input class="form-control"  type="email" name="email" required placeholder="Email"> 
                             <input class="form-control"  type="text" name="userImageLink" required placeholder="User Image Link"> 
                             <input class="form-control"  type="text" name="name" required placeholder="Name"> 
@@ -74,9 +42,8 @@
                         </form>
                         <p><b>Note:</b> Passwords must have at least one non alphanumeric character, at least one uppercase ('A'-'Z'), and the lenght is min. 6 character.</p>
                     </div>
-                }
-    
-    
-    
-    
+
+
+
+
 </div>
