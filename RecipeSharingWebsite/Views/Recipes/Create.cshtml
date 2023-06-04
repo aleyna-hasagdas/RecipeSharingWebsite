@@ -11,70 +11,85 @@
     <div id="createRecipe" class="page-container">
         <h4>@ViewData["Heading"]</h4>
         
-@using (Html.BeginForm("Create", "Recipes", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
         <div id="previewImageContainer">
             <img id="previewImage" src=@ViewData["DefaultImage"] alt="Recipe Preview"/>
         </div>
         
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @using (Html.BeginForm("Create", "Recipes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
         
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div>
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control field" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control field" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div>
-                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control field" } })
-                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control field" } })
+                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div>
-                @Html.TextAreaFor(model => model.Description, new { @class = "form-control field" })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control field" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
         
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Instructions, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div>
-                @Html.TextAreaFor(model => model.Instructions, new { @class = "form-control field" })
-                @Html.ValidationMessageFor(model => model.Instructions, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Instructions, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.TextAreaFor(model => model.Instructions, new { @class = "form-control field" })
+                    @Html.ValidationMessageFor(model => model.Instructions, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
         
-        <div class="form-group">
-            @Html.LabelFor(model => model.Image)
-            <div>
-                @Html.TextBoxFor(model => model.Image, new { @class = "form-control field" })
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image)
+                <div>
+                    @Html.TextBoxFor(model => model.Image, new { @class = "form-control field", @id = "recipeImage" })
+                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-         <div class="form-group">
-             @Html.LabelFor(model => model.Ingredients)
-             <div>
-                @Html.TextAreaFor(model => model.Ingredients, new { @class = "form-control field" })
-                @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Ingredients)
+                <div>
+                    @Html.TextAreaFor(model => model.Ingredients, new { @class = "form-control field" })
+                    @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="button-container">
-                <input type="submit" value="Create Recipe" class="button large primary"/>
+            <div class="form-group">
+                <div class="button-container">
+                    <input type="submit" value="Create Recipe" class="button large primary"/>
+                </div>
             </div>
-        </div>
-}
+        }
         
     </div>
 </div>
+
+<script>
+function updatePreviewImage() {
+      var recipeImageInput = document.getElementById('recipeImage');
+      var previewImage = document.getElementById('previewImage');
+      var defaultImageUrl = "https://media.istockphoto.com/id/1354776457/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=w3OW0wX3LyiFRuDHo9A32Q0IUMtD4yjXEvQlqyYk9O4=";
+  
+      if (recipeImageInput.value === '') {
+        previewImage.src = defaultImageUrl;
+      } else {
+        previewImage.src = recipeImageInput.value;
+      }
+    }
+</script>

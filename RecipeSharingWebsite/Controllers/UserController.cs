@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeAleyna.Data;
 using RecipeAleyna.Models;
 using System;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace RecipeAleyna.Controllers
 {
@@ -63,7 +66,17 @@ namespace RecipeAleyna.Controllers
                     return View(user);
                 }
 
-                return RedirectToAction("Index", "Home");
+                // Authenticate the user
+                var identity = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.Name, existingUser.Name),
+                    new Claim(ClaimTypes.Email, existingUser.Email),
+                    new Claim(ClaimTypes.Surname, existingUser.Surname),
+                }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var principal = new ClaimsPrincipal(identity);
+
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();
+                
             }
 
             return View(user);
